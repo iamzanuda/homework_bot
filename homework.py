@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import sys
@@ -8,7 +9,7 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
-from exceptions import NoHTTPResponseError
+from exceptions import NoHTTPResponseError, NoAPIResponseError
 
 load_dotenv()
 
@@ -80,13 +81,13 @@ def get_api_answer(timestamp):
                                 params=time_point
                                 )
     except requests.RequestException as error:
-        raise TypeError(f'Ошибка запроса к API {error}')
+        raise NoAPIResponseError(f'Ошибка запроса к API {error}')
     if response.status_code != HTTPStatus.OK:
         raise NoHTTPResponseError(response)
     try:
         return response.json()
-    except ValueError:
-        logger.error('Ответ от API не в формате json')
+    except json.decoder.JSONDecodeError as error:
+        raise ValueError(f'Ответ вернулся не формате json {error}')
 
 
 def check_response(response):
@@ -98,25 +99,15 @@ def check_response(response):
     4. Значение ключа 'homeworks' - список
     """
     if not response:
-        text = 'Нет ответа от API.'
-        logger.error(text)
-        raise KeyError(text)
+        raise KeyError('Нет ответа от API.')
     if not isinstance(response, dict):
-        text = 'Ответ от API не является словарем.'
-        logger.error(text)
-        raise TypeError(text)
+        raise TypeError('Ответ от API не является словарем.')
     if 'current_date' not in response:
-        text = 'Запрошенный ключ current_date отсутствует в ответе.'
-        logger.error(text)
-        raise KeyError(text)
+        raise KeyError('Запрошенный ключ current_date отсутствует в ответе.')
     if 'homeworks' not in response:
-        text = 'Запрошенный ключ homeworks отсутствует в ответе.'
-        logger.error(text)
-        raise KeyError(text)
+        raise KeyError('Запрошенный ключ homeworks отсутствует в ответе.')
     if not isinstance(response.get('homeworks'), list):
-        text = 'Значение ключа не является списком'
-        logger.error(text)
-        raise TypeError(text)
+        raise TypeError('Значение ключа не является списком')
     return response['homeworks']
 
 
@@ -128,19 +119,12 @@ def parse_status(homework):
     В случае успеха, функция возвращает подготовленную для отправки в Telegram
     строку из словаря HOMEWORK_VERDICT.
     """
-    bot = telegram.Bot(token=TELEGRAM_TOKEN)
     homework_name = homework.get('homework_name')
     status = homework.get('status')
     if status not in HOMEWORK_VERDICTS:
-        message = 'В ответе API домашки недокументированный статус.'
-        logger.error(message)
-        send_message(bot, message)
-        raise Exception(message)
+        raise Exception('В ответе API домашки недокументированный статус.')
     if 'homework_name' not in homework.keys():
-        message = 'В ответе API домашки нет ключа homework_name.'
-        logger.error(message)
-        send_message(bot, message)
-        raise Exception(message)
+        raise Exception('В ответе API домашки нет ключа homework_name.')
     verdict = HOMEWORK_VERDICTS[status]
     return (f'Изменился статус проверки работы "{homework_name}". {verdict}')
 

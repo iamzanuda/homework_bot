@@ -4,7 +4,7 @@ class NoHTTPResponseError(Exception):
     pass
 
 
-class NoStatusError(Exception):
-    """Если API домашки возвращает недокументированный статус."""
+class NoAPIResponseError(Exception):
+    """Если API домашки не отвечает."""
 
     pass
