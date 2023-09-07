@@ -4,13 +4,13 @@
 
 
 **Стэк технологий:**
-+ Python
-+ Telegram
-+ Bot API
-+ Client API
-+ JSON 
-+ REST API
-+ Библиотека python-dotenv
++ [Python](https://www.python.org/)
++ [Telegram](https://web.telegram.org/)
++ [Bot API Telegram](https://core.telegram.org/bots/api)
++ [Client API Telegram](https://core.telegram.org/)
++ [JSON](https://www.json.org/json-en.htm)
++ [REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28)
++ [Библиотека python-dotenv](https://pypi.org/project/python-dotenv/)
 
 
 **Так же в проекте настроенны:**
