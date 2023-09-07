@@ -24,4 +24,7 @@
 + Бот в телефоне - в телефон на базе Android можно установить Termux, Linux-терминал для Android.
 + Облачный сервис pythonanywhere - можно воспользоваться бесплатными услугами платного хостинга pythonanywhere [**pythonanywhere**](https://www.pythonanywhere.com/)
 
+
+
+
   _Автор Ярослав Б_
