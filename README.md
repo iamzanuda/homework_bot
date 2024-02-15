@@ -4,7 +4,7 @@
 
 
 **Стэк технологий:**
-+ [Python](https://www.python.org/)
++ [Python](https://www.python.org/) 3.9
 + [Telegram](https://web.telegram.org/)
 + [Bot API Telegram](https://core.telegram.org/bots/api)
 + [Client API Telegram](https://core.telegram.org/)
