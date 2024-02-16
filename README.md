@@ -27,7 +27,7 @@
 
 
 
-  **Автор:** Yaroslav Baramykov
+  **Автор:** _Yaroslav Baramykov_
 
 
 
